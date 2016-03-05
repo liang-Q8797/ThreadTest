@@ -20,7 +20,7 @@ public class ThreadTest implements Runnable{
 			synchronized (object1) {
 				try {
 					System.out.println("持有对象object1");
-					Thread.sleep(200);//休眠时间
+					Thread.sleep(200);//休眠时间help
 					synchronized (object2) {
 						System.out.println(Thread.currentThread().getName()+":"+flag);
 					}
