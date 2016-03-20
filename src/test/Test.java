@@ -6,9 +6,10 @@ import java.util.concurrent.Executors;
 import com.sun.org.apache.xerces.internal.impl.dv.ValidatedInfo;
 
 public class Test implements Runnable {
+	
 	String str = "R+X+Y+Z";
-	Boolean flag = true;
-
+	static Boolean flag = true;
+	static int count = 0;
 	public static void main(String[] args) throws Exception {
 		Test test1 = new Test();// 只是实例
 		// Test test2 = new Test();
@@ -20,10 +21,11 @@ public class Test implements Runnable {
 		// new Thread(test4).start();
 		ExecutorService pool = Executors.newFixedThreadPool(2);
 		Thread t1 = new Thread(test1);
-		for (int i = 0; i < 3; i++) {
+		
+		for(int i=0;i<2;i++){
 			pool.execute(t1);
+			count++;
 		}
-
 		pool.shutdown();
 		while (true) {
 			if (pool.isTerminated()) {
@@ -32,11 +34,11 @@ public class Test implements Runnable {
 			}
 			// Thread.sleep(200);
 		}
+		System.out.println(count);
 		// Thread t2 = new Thread(test2);
 		// pool.execute(t1);
 		// pool.execute(t2);
 		// Thread.sleep(2000);
-		// System.out.println(strr.substring(1, strr.length()));
 	}
 
 	@Override
@@ -52,7 +54,6 @@ public class Test implements Runnable {
 					str1 = str;
 					flag = false;
 				}
-				// strr=strr+"+"+str1;
 				System.out.println(Thread.currentThread().getName() + "→" + str1);
 			}
 		}
