@@ -3,8 +3,6 @@ package test;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.sun.org.apache.xerces.internal.impl.dv.ValidatedInfo;
-
 public class Test implements Runnable {
 	
 	String str = "R+X+Y+Z";
@@ -19,20 +17,21 @@ public class Test implements Runnable {
 		// new Thread(test2).start();
 		// new Thread(test3).start();
 		// new Thread(test4).start();
-		ExecutorService pool = Executors.newFixedThreadPool(2);
+//		ExecutorService pool = Executors.newFixedThreadPool(2);
+		ExecutorService pool = Executors.newCachedThreadPool();
 		Thread t1 = new Thread(test1);
-		
-		for(int i=0;i<2;i++){
+		for(int i=0;i<10;i++){
 			pool.execute(t1);
 			count++;
 		}
 		pool.shutdown();
+		
 		while (true) {
 			if (pool.isTerminated()) {
 				System.out.println("结束了！");
 				break;
 			}
-			// Thread.sleep(200);
+			Thread.sleep(200);
 		}
 		System.out.println(count);
 		// Thread t2 = new Thread(test2);
@@ -42,14 +41,15 @@ public class Test implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		synchronized (this) { // 对资源加锁
+	public void run() 
+	{
+		// 对资源加锁
+		synchronized (this) { 
 			while (flag) {
 				String str1 = null;
 				if (str.contains("+")) {
-					str1 = str.split("\\+", 2)[0];// 将字符串按+号分割，分成两组 ，数组中第一个元素输出
-					str = str.split("\\+", 2)[1]; // 修改共享资源。
+					str1 = str.split("\\+",2)[0];
+					str = str.split("\\+",2)[1]; 
 				} else {
 					str1 = str;
 					flag = false;
