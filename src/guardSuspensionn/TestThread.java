@@ -6,5 +6,6 @@ public class TestThread {
 		for(int i=0;i<5;i++) new ServerThread(requestQueue, "ServerThread "+i).start();
 		for(int i=0;i<5;i++) new ClientThread(requestQueue, "CliendThred "+i).start();
 		System.out.println("合并");
+		System.out.println("冲突");
 	}
 }
